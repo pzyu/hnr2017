@@ -3,6 +3,7 @@ var Base = {
 	gameWidth: 1280,
 	gameHeight: 720,
   tweetList: [],
+  currentIndex: 0,
   correctChars: 0,
   incorrectChars: 0,
   lives: 3,

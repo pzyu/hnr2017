@@ -5,7 +5,7 @@ Base.Main = function() {
 	Base.correctChars = 0;
 
 	// Keep track of current tweet
-	this.currentIndex = 0;
+	Base.currentIndex = 0;
 	this.isReset = false;
 
 	Base.incorrectChars = 0;
@@ -62,7 +62,7 @@ Base.Main.prototype = {
 		}
 
 		// Set is current of first one as true
-		Base.tweetList[this.currentIndex].isCurrent = true;
+		Base.tweetList[Base.currentIndex].isCurrent = true;
 
 		// Add timer
 		var text = 0;
@@ -108,18 +108,18 @@ Base.Main.prototype = {
 		// Backspace
 		if (key.keyCode == 8) {
 			// Reset color
-			Base.tweetList[this.currentIndex].textObject.addColor("#fff", 0);
+			Base.tweetList[Base.currentIndex].textObject.addColor("#fff", 0);
 			// Reset current index
-			this.currentIndex = null;
+			Base.currentIndex = null;
 		}
 
 		// If we have selected a tweet
-		if (this.currentIndex != null) {
-			var currentTweet = Base.tweetList[this.currentIndex];
+		if (Base.currentIndex != null) {
+			var currentTweet = Base.tweetList[Base.currentIndex];
 			var currentChar = currentTweet.getFirst();
 
 			// Set the is current
-			Base.tweetList[this.currentIndex].isCurrent = true;
+			Base.tweetList[Base.currentIndex].isCurrent = true;
 			// console.log("Char code:" + currentChar);
 			// console.log("My key: " + key.key);
 
@@ -137,12 +137,13 @@ Base.Main.prototype = {
 				currentTweet.playSmile();
 			}
 		} else {
+			console.log("Null index");
 			// Otherwise, look through array
 			for (var i = 0; i < this.tweetAmt; i++) {
 				// We have found a tweet and index
 				if(Base.tweetList[i].getFirst() == key.key) {
 					// Set current index 
-					this.currentIndex = i;
+					Base.currentIndex = i;
 					Base.correctChars++;
 
 					// Remove the key as usual then break

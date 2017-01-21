@@ -13,7 +13,7 @@ Base.Tweet = function(count) {
 
 	// Padding for spawn
 	this.paddingLeft = 100;
-	this.paddingRight = 250;
+	this.paddingRight = 350;
 
 	// Falling speed
 	this.speedX = (Math.random() * 5) + 1;
@@ -67,7 +67,10 @@ Base.Tweet.prototype.move = function() {
 	if (this.y > 580) {
 		Base.tweetList.push(Base.tweetList.shift());
 		Base.lives--;
+		Base.currentIndex = null;
+		console.log("Dead tweet" + Base.currentIndex);
 		Base.music._sound.playbackRate.value *= 0.8;
+		// Base.music._sound.detune.value *= 0.8;
 		// Die and spawn
 		this.spawn(1);
 	}
@@ -121,7 +124,7 @@ Base.Tweet.prototype.spawn = function(count) {
 	this.text = Base.tweets.tweets[index];
 
 	this.textLength = this.text.length;
-	this.speedY *= 1 / this.textLength;
+	this.speedY = 40 / this.textLength;
 
 	this.lengthPercentage = this.text.length/this.textLength * 100;
 
@@ -129,6 +132,8 @@ Base.Tweet.prototype.spawn = function(count) {
 
 	this.x = (Math.random() * (game.scale.width - this.paddingRight)) + this.paddingLeft;
 	this.y = -250 * count;
+
+	console.log("X: " + this.x + " Y: " + this.y + "Speed: " + this.speedY);
 
     // Text object
 	this.textObject.anchor.set(0, 0);
