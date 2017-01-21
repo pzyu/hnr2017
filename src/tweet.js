@@ -11,11 +11,15 @@ Base.Tweet = function(count) {
 	this.paddingRight = 250;
 
 	// Falling speed
-	this.speedY = 0.75;
+	this.speedY = 0.15;
 
 	// Animation
 	this.animations.add('walk');
 	this.animations.play('walk', 5, true);
+	
+	// Text style
+    var style = { font: "16px myfont", fill: "#7CFC00", wordWrap: true, wordWrapWidth: this.textWidth, strokeThickness: 1, stroke: "#000000"};
+	this.textObject = game.add.text(0, 0, this.text, style);
 
 	this.spawn(count);
 };
@@ -40,17 +44,13 @@ Base.Tweet.prototype.move = function() {
 
 Base.Tweet.prototype.spawn = function(count) {
 	this.text = "I loved beating these two terrible human beings. I would never recommend that anyone use her lawyer, he is a total loser!";
-	this.text = "test";
+
+	this.textObject.setText(this.text);
 
 	this.x = (Math.random() * (game.scale.width - this.paddingRight)) + this.paddingLeft;
-	console.log(this.x);
 	this.y = -250 * count;
 
-	// Text style
-    var style = { font: "16px myfont", fill: "#7CFC00", wordWrap: true, wordWrapWidth: this.textWidth};
-
     // Text object
-	this.textObject = game.add.text(0, 0, this.text, style);
 	this.textObject.anchor.set(0, 0);
 	this.textObject.addColor("#fff", 1);
 
