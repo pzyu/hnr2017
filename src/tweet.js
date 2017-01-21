@@ -67,16 +67,18 @@ Base.Tweet.prototype.move = function() {
 	if (this.y > 580) {
 		Base.tweetList.push(Base.tweetList.shift());
 		Base.lives--;
+
 		Base.currentIndex = null;
-		console.log("Dead tweet" + Base.currentIndex);
+		this.isCurrent = false;
+		this.animState = "default";
+		this.textObject.addColor("#7CFC00", 0);
+		
+		//console.log("Dead tweet" + Base.currentIndex);
 		Base.music._sound.playbackRate.value *= 0.8;
 		// Base.music._sound.detune.value *= 0.8;
 		// Die and spawn
 		this.spawn(1);
 	}
-
-
-
 };
 
 Base.Tweet.prototype.handleStatus = function() {
@@ -170,6 +172,12 @@ Base.Tweet.prototype.removeFirst = function(key) {
 	// If we have finished typing
 	if (this.text == "") {
 		Base.score += 100;
+
+		this.isCurrent = false;
+		Base.currentIndex = null;
+		this.animState = "default";
+		this.textObject.addColor("#7CFC00", 0);
+
 		this.emitBlood();
 		// Shift first element to end of array
 		Base.tweetList.push(Base.tweetList.shift());
