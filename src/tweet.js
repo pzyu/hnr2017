@@ -1,6 +1,6 @@
 Base.Tweet = function(count) {
 	// (context, game, x, y, sprite_key, 0)
-	Phaser.Sprite.call(this, game, 200, 200, "trump", 0);
+	Phaser.Sprite.call(this, game, -500, -500, "trump", 0);
 	// Variables we want to use
 	// Tweet text
 	this.text = "";
@@ -47,8 +47,8 @@ Base.Tweet = function(count) {
 	this.animations.play("anim_smile_default");
 	
 	// Text style
-    var style = { font: "16px myfont", fill: "#7CFC00", wordWrap: true, wordWrapWidth: this.textWidth, strokeThickness: 1, stroke: "#000000"};
-	this.textObject = game.add.text(0, 0, this.text, style);
+    var style = { font: "16px myfont", fill: "#7CFC00", wordWrap: true, wordWrapWidth: this.textWidth, align: "none", strokeThickness: 2, stroke: "#000000"};
+	this.textObject = game.add.text(-200, -200, this.text, style);
 
 	this.spawn(count);
 };
@@ -74,8 +74,8 @@ Base.Tweet.prototype.move = function() {
 		this.textObject.addColor("#7CFC00", 0);
 		
 		//console.log("Dead tweet" + Base.currentIndex);
-		Base.music._sound.playbackRate.value *= 0.8;
-		// Base.music._sound.detune.value *= 0.8;
+		//Base.music._sound.playbackRate.value *= 0.8;
+		Base.music._sound.playbackRate.value *= 1.2;
 		// Die and spawn
 		this.spawn(1);
 	}
@@ -89,25 +89,33 @@ Base.Tweet.prototype.handleStatus = function() {
 		// Dead
 		if (this.animState != "dead") {
 			this.animState = "dead";
+			Base.score += (Math.random() * 25) + 10;
 			this.emitBlood();
+			Base.billSFX.play();
 		}
 	} else if (this.lengthPercentage < 40) {
 		// Fatal
 		if (this.animState != "fatal") {
 	 		this.animState = "fatal";
+	 		Base.score += (Math.random() * 25) + 10;
 			this.emitBlood();
+			Base.billSFX.play();
 		}
 	} else if (this.lengthPercentage < 60) {
 		// Bleed
 		if (this.animState != "bleed") {
 			this.animState = "bleed";
+			Base.score += (Math.random() * 25) + 10;
 			this.emitBlood();
+			Base.billSFX.play();
 		}
 	} else if (this.lengthPercentage < 80) {
 		// Hurt
 		if (this.animState != "hurt") {
 			this.animState = "hurt";
+			Base.score += (Math.random() * 25) + 10;
 			this.emitBlood();
+			Base.billSFX.play();
 		}
 	} else {
 		// Default
@@ -118,7 +126,7 @@ Base.Tweet.prototype.handleStatus = function() {
 Base.Tweet.prototype.emitBlood = function() {
 	this.emitter.x = this.x + this.width/2;
 	this.emitter.y = this.y + this.height/2;
-	this.emitter.start(true, 1500, null, 50);
+	this.emitter.start(true, 2000, null, 25);
 }
 
 Base.Tweet.prototype.spawn = function(count) {
@@ -127,20 +135,20 @@ Base.Tweet.prototype.spawn = function(count) {
 
 	this.textLength = this.text.length;
 	this.speedY = Base.speedConstant / this.textLength;
+	this.textObject.setText("");
 
 	this.lengthPercentage = this.text.length/this.textLength * 100;
 
-	this.textObject.setText(this.text);
-
 	this.x = (Math.random() * (game.scale.width - this.paddingRight)) + this.paddingLeft;
-	this.y = -250 * count;
+	this.y = -400 * count;
 
-	console.log("X: " + this.x + " Y: " + this.y + "Speed: " + this.speedY);
+
+	//console.log("X: " + this.x + " Y: " + this.y + "Speed: " + this.speedY);
 
     // Text object
 	this.textObject.anchor.set(0, 0);
 	var startFrom = this.isCurrent ? 1 : 0;
-	console.log(startFrom);
+	//console.log(startFrom);
 	this.textObject.addColor("#7CFC00", 0);
 	this.textObject.addColor("#fff", startFrom);
 
@@ -151,6 +159,12 @@ Base.Tweet.prototype.spawn = function(count) {
 
 	var tween = game.add.tween(this).to( { x: this.x + tweenDist}, tweenSpeed, Phaser.Easing.Linear.None, true, 0, -1);
 	tween.yoyo(true, 0)
+
+
+	this.textObject.setText(this.text);
+
+	this.animState = "default";	
+	this.animations.play("anim_idle_default");
 };
 
 Base.Tweet.prototype.removeFirst = function(key) {
@@ -161,8 +175,15 @@ Base.Tweet.prototype.removeFirst = function(key) {
 	console.log(this.isCurrent + " " + startFrom);
 	this.textObject.addColor("#7CFC00", 0);
 	this.textObject.addColor("#fff", startFrom);
+	Base.score += 0.01;
+	Base.coinSFX.play();
 
 	this.handleStatus();
+
+	// Knockback
+	if (this.y >= 50) {
+		this.y -= 6;
+	}
 
 	// If we have completed a word, Trump will be angry
 	if (key === " ") {
@@ -171,7 +192,7 @@ Base.Tweet.prototype.removeFirst = function(key) {
 
 	// If we have finished typing
 	if (this.text == "") {
-		Base.score += 100;
+		//Base.score += 100;
 
 		this.isCurrent = false;
 		Base.currentIndex = null;
@@ -179,6 +200,7 @@ Base.Tweet.prototype.removeFirst = function(key) {
 		this.textObject.addColor("#7CFC00", 0);
 
 		this.emitBlood();
+		Base.billSFX.play();
 		// Shift first element to end of array
 		Base.tweetList.push(Base.tweetList.shift());
 		this.spawn(1);
@@ -190,7 +212,7 @@ Base.Tweet.prototype.getFirst = function() {
 }
 
 Base.Tweet.prototype.centerTextOnSprite = function() {
-	this.textObject.x = Math.floor(this.x - this.width - 20);
+	this.textObject.x = Math.floor(this.x - this.width - 30);
 	this.textObject.y = Math.floor(this.y + this.height + 5);
 };
 

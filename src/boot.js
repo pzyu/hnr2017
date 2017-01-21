@@ -10,7 +10,9 @@ var Base = {
   tweets: [],
   score: 0,
   speedConstant: 40,
-  music: {}
+  music: {},
+  coinSFX: null,
+  billSFX: null
 }
 
 var config = {width: Base.gameWidth, height: Base.gameHeight, renderer: Phaser.AUTO, forceSetTimeOut: false};
@@ -38,6 +40,8 @@ Base.Boot.prototype = {
     this.load.atlas('trump', 'assets/spritesheet.png', 'assets/spritesheet.json');
     game.load.image("background", "assets/background.png");
     game.load.audio('USA', 'assets/USA.mp3');
+    game.load.audio('SFX_bill', 'assets/bill.wav');
+    game.load.audio('SFX_coin', 'assets/coin.wav');
   },
 
   loadFonts: function() {
@@ -73,8 +77,12 @@ Base.Boot.prototype = {
       game.state.add('STATE_MENU', Base.Menu);
       game.state.add('STATE_MAIN', Base.Main);
 
-      game.state.start('STATE_MENU');
+      game.state.start('STATE_MAIN');
     }, 500);
+
+
+    Base.coinSFX = new Phaser.Sound(game, "SFX_coin", 0.1);
+    Base.billSFX = new Phaser.Sound(game, "SFX_bill", 0.3);
   }
 };
 

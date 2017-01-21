@@ -70,8 +70,7 @@ Base.Menu.prototype = {
 	    // Now every time we click on it, it says "You did it!" in the console!
 	    game.state.add('STATE_MAIN', Base.Main);
 	    
-	    txt.events.onInputUp.add(function () { 
-	    	console.log('You did it!')
+	    txt.events.onInputUp.add(function () {
 	    	game.state.start("STATE_MAIN");
 	    });
 
