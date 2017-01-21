@@ -16,8 +16,8 @@ Base.Tweet = function(count) {
 	this.paddingRight = 250;
 
 	// Falling speed
-	this.speedY = 0.4;
 	this.speedX = (Math.random() * 5) + 1;
+	this.speedY = 40;
 
 	// Add emitter
 	this.emitter;
@@ -66,6 +66,8 @@ Base.Tweet.prototype.move = function() {
 
 	if (this.y > 580) {
 		Base.tweetList.push(Base.tweetList.shift());
+		Base.lives--;
+		Base.music._sound.playbackRate.value *= 0.8;
 		// Die and spawn
 		this.spawn(1);
 	}
@@ -115,10 +117,11 @@ Base.Tweet.prototype.emitBlood = function() {
 }
 
 Base.Tweet.prototype.spawn = function(count) {
-	var index = Number(Math.random() * Base.tweets.tweets.length).toFixed(0);
-	//console.log(index);//Base.tweets.tweets[index]);
-	this.text = Base.tweets.tweets[index];//"I loved beating these two terrible human beings. I would never recommend that anyone use her lawyer, he is a total loser!";
+	var index = Math.floor(Math.random() * Base.tweets.tweets.length);
+	this.text = Base.tweets.tweets[index];
+
 	this.textLength = this.text.length;
+	this.speedY *= 1 / this.textLength;
 
 	this.lengthPercentage = this.text.length/this.textLength * 100;
 

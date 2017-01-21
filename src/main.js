@@ -8,6 +8,9 @@ Base.Main = function() {
 	this.currentIndex = 0;
 	this.isReset = false;
 
+	Base.incorrectChars = 0;
+	Base.lives = 3;
+
 	// Keyboard
 	this.keyboard = game.input.keyboard;
 	this.keyboard.onDownCallback = this.checkInput;
@@ -63,18 +66,30 @@ Base.Main.prototype = {
 
 		// Add timer
 		var text = 0;
+		// WPM
+		var wordsPerMin = 0;
+		var accuracy = 0;
 		var timeElapsed = 0;
 		
 		function logTime() {
 			timeElapsed++;
-			var WPM = Number(Base.correctChars / 5 / (timeElapsed / 60)).toFixed(0);
-			text.setText("WPM:" + WPM);
+			var wpm = Number(Base.correctChars / 5 / (timeElapsed / 60)).toFixed(0);
+			wordsPerMin.setText("WPM:" + wpm);
+			var acc = Number(Base.correctChars / (Base.correctChars + Base.incorrectChars) * 100).toFixed(0);
+			accuracy.setText("ACC:" + acc + "%");
+			health.setText(" HP:" + Base.lives);
 		}
 
     	game.time.events.loop(Phaser.Timer.SECOND, logTime, this);
 
-		text = game.add.text(100, 75, "WPM:0", { font: "32px myfont", fill: "#ffffff", align: "left" });
+		wordsPerMin = game.add.text(80, 75, "WPM:0", { font: "32px myfont", fill: "#ffffff", align: "left" });
 
+		// Accuracy
+
+		accuracy = game.add.text(80, 100, "ACC:0%", { font: "32px myfont", fill: "#ffffff", align: "left" });
+
+		var health = game.add.text(80, 125, " HP:3", { font: "32px myfont", fill: "#ffffff", align: "left" });
+ 
 	    game.physics.startSystem(Phaser.Physics.ARCADE);
 
 	},
@@ -89,7 +104,6 @@ Base.Main.prototype = {
 	    	game.state.start("STATE_MAIN");
 	    	return;
 		}
-
 
 		// Backspace
 		if (key.keyCode == 8) {
@@ -119,10 +133,10 @@ Base.Main.prototype = {
 				this.emitter.start(true, 1000, null, 10);
 			} else {
 				// Punish
+				Base.incorrectChars++;
 				currentTweet.playSmile();
 			}
 		} else {
-
 			// Otherwise, look through array
 			for (var i = 0; i < this.tweetAmt; i++) {
 				// We have found a tweet and index

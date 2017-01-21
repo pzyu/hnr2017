@@ -4,7 +4,10 @@ var Base = {
 	gameHeight: 720,
   tweetList: [],
   correctChars: 0,
-  tweets: []
+  incorrectChars: 0,
+  lives: 3,
+  tweets: [],
+  music: {}
 }
 
 var config = {width: Base.gameWidth, height: Base.gameHeight, renderer: Phaser.AUTO, forceSetTimeOut: false};
@@ -26,11 +29,12 @@ Base.Boot.prototype = {
     this.load.script('SCRIPT_MENU', 'src/menu.js'); 
     this.load.script('SCRIPT_MAIN', 'src/main.js');
     this.load.script('SCRIPT_TWEET', 'src/tweet.js');
-    Base.tweets = game.load.json("tweets", "assets/tweets.json");
+    game.load.json("tweets", "assets/tweets.json");
 
 
     this.load.atlas('trump', 'assets/spritesheet.png', 'assets/spritesheet.json');
     game.load.image("background", "assets/background.png");
+    game.load.audio('USA', 'assets/USA.mp3');
   },
 
   loadFonts: function() {
@@ -46,6 +50,11 @@ Base.Boot.prototype = {
   // Create stuff in phaser
   create: function () {
     Base.tweets = game.cache.getJSON("tweets");
+
+    // Setup music
+    Base.music = game.add.audio('USA');
+    Base.music.play("", 0, 0.3, true);
+    
 
     // Set game scale with page
     game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
