@@ -2,7 +2,7 @@ Base.Main = function() {
 	// Variables we want to use
 	Base.tweetList = [];
 	this.tweetAmt = 5;
-	
+	Base.correctChars = 0;
 	// Keyboard
 	this.keyboard = game.input.keyboard;
 	this.keyboard.onDownCallback = this.checkInput;
@@ -12,6 +12,8 @@ Base.Main = function() {
 
 Base.Main.prototype = {
 	// Load whatever we need for Boot first
+
+
 	preload: function() {
 		// Preload our assets
 		game.load.image("background", "assets/background.png");
@@ -22,6 +24,8 @@ Base.Main.prototype = {
 	},
 
 	create: function() {
+
+
 
 		// Add background
 		var background = game.add.sprite(0, 0, "background");
@@ -38,6 +42,23 @@ Base.Main.prototype = {
 		this.emitter.setAlpha(0, 1, 100);
 
 		// Add WPM
+
+				// Add timer
+		var text = 0;
+		var timeElapsed = 0;
+		
+
+		function logTime() {
+			timeElapsed++;
+			var WPM = Number(Base.correctChars / 5 / (timeElapsed / 60)).toFixed(0);
+			text.setText("WPM:" + WPM);
+		}
+
+		text = game.add.text(100, 75, "WPM:0", { font: "32px myfont", fill: "#ffffff", align: "left" });
+    
+    	text.anchor.setTo(0, 0);
+
+    	game.time.events.loop(Phaser.Timer.SECOND, logTime, this);
 
 		// Create all tweets and store in array
 		for (var i = 0; i < this.tweetAmt; i++) {
@@ -67,6 +88,7 @@ Base.Main.prototype = {
 		if (key.key == currentChar) {
 			currentTweet.removeFirst();
 			// Add particle burst
+			Base.correctChars++;
 			this.emitter.x = currentTweet.textObject.x;
 			this.emitter.y = currentTweet.textObject.y + 5;
 			console.log(this.emitter);
@@ -75,4 +97,6 @@ Base.Main.prototype = {
 			// Punish
 		}
 	}
+
+
 };
