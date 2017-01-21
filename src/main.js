@@ -1,6 +1,9 @@
 Base.Main = function() {
 	// Variables we want to use
 	this.tweetList;
+	// this.keyboard = game.input.keyboard;
+	// this.keyboard.onDownCallback = this.checkInput;
+	// this.keyboard.callbackContext = this;
 };
 
 Base.Main.prototype = {
@@ -32,4 +35,14 @@ Base.Main.prototype = {
 	update: function() {
 
 	}
+
+	// checkInput: function(key) {
+	// var currentChar = this.text.charAt(0).toLowerCase();
+	// // console.log(currentChar +": "+ this.text.charAt(0));
+	// // console.log(key.keyCode +": "+key.key);
+	// if (currentChar == key.key) {
+	// 	// console.log("Remove");
+	// 	this.text = this.text.substring(1);
+	// 	this.textObject.setText(this.text);
+	// }
 };
