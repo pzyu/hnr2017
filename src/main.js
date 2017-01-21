@@ -40,19 +40,6 @@ Base.Main.prototype = {
 		this.emitter.gravity = 200;
 		this.emitter.setAlpha(0, 1, 100);
 
-		// Add timer
-		var text = 0;
-		var timeElapsed = 0;
-		
-
-		function logTime() {
-			timeElapsed++;
-			var WPM = Number(Base.correctChars / 5 / (timeElapsed / 60)).toFixed(0);
-			text.setText("WPM:" + WPM);
-		}
-    	text.anchor.setTo(0, 0);
-
-    	game.time.events.loop(Phaser.Timer.SECOND, logTime, this);
 
 		// Create all tweets and store in array
 		for (var i = 0; i < this.tweetAmt; i++) {
@@ -61,6 +48,18 @@ Base.Main.prototype = {
 			Base.tweetList[i] = newTweet;
 			game.add.existing(newTweet);
 		}
+
+		// Add timer
+		var text = 0;
+		var timeElapsed = 0;
+		
+		function logTime() {
+			timeElapsed++;
+			var WPM = Number(Base.correctChars / 5 / (timeElapsed / 60)).toFixed(0);
+			text.setText("WPM:" + WPM);
+		}
+
+    	game.time.events.loop(Phaser.Timer.SECOND, logTime, this);
 
 		text = game.add.text(100, 75, "WPM:0", { font: "32px myfont", fill: "#ffffff", align: "left" });
 
