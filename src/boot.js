@@ -20,6 +20,7 @@ Base.Boot.prototype = {
     this.load.script('SCRIPT_WEBFONT', 'src/webfontloader.js');
     this.loadFonts();
 
+    this.load.script('SCRIPT_MENU', 'src/menu.js'); 
     this.load.script('SCRIPT_MAIN', 'src/main.js');
     this.load.script('SCRIPT_TWEET', 'src/tweet.js');
   },
@@ -47,8 +48,10 @@ Base.Boot.prototype = {
       this.status = game.add.text(Base.gameWidth/2, Base.gameHeight/2, 'Loading...', {font: "32px myfont", fill: 'white'});
 
       // Main state goes to main gamee
+      game.state.add('STATE_MENU', Base.Menu);
       game.state.add('STATE_MAIN', Base.Main);
-      game.state.start('STATE_MAIN');
+
+      game.state.start('STATE_MENU');
     }, 500);
   }
 };
