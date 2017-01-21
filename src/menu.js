@@ -94,24 +94,4 @@ Base.Menu.prototype = {
 
 	},
 
-	addMenuOption: function(text, callback) {
-	    var optionStyle = { font: '30pt TheMinion', fill: 'white', align: 'left', stroke: 'rgba(0,0,0,0)', srokeThickness: 4};
-	    var txt = game.add.text(30, (this.optionCount * 80) + 200, text, optionStyle);
-	    var onOver = function (target) {
-	      target.fill = "#FEFFD5";
-	      target.stroke = "rgba(200,200,200,0.5)";
-	    };
-	    var onOut = function (target) {
-	      target.fill = "white";
-	      target.stroke = "rgba(0,0,0,0)";
-	    };
-	    txt.stroke = "rgba(0,0,0,0";
-	    txt.strokeThickness = 4;
-	    txt.inputEnabled = true;
-	    txt.events.onInputUp.add(callback);
-	    txt.events.onInputOver.add(onOver);
-	    txt.events.onInputOut.add(onOut);
-	    this.optionCount ++;
-  	}
-
 };

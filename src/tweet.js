@@ -62,6 +62,8 @@ Base.Tweet.prototype.move = function() {
 
 	if (this.y > 580) {
 		Base.tweetList.push(Base.tweetList.shift());
+		Base.lives--;
+		Base.music._sound.playbackRate.value *= 0.8;
 		// Die and spawn
 		this.spawn(1);
 	}
@@ -110,6 +112,9 @@ Base.Tweet.prototype.emitBlood = function() {
 Base.Tweet.prototype.spawn = function(count) {
 	var index = Number(Math.random() * Base.tweets.tweets.length).toFixed(0);
 	this.text = Base.tweets.tweets[index];//"I loved beating these two terrible human beings. I would never recommend that anyone use her lawyer, he is a total loser!";
+	// for (var i = 0; i < Base.tweets.tweets.length; i++) {
+	// 	console.log(Base.tweets.tweets[i].length);
+	// }
 	this.textLength = this.text.length;
 	this.speedY *= 1 / this.textLength;
 

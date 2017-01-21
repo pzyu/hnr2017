@@ -4,6 +4,7 @@ Base.Main = function() {
 	this.tweetAmt = 5;
 	Base.correctChars = 0;
 	Base.incorrectChars = 0;
+	Base.lives = 3;
 	// Keyboard
 	this.keyboard = game.input.keyboard;
 	this.keyboard.onDownCallback = this.checkInput;
@@ -71,16 +72,19 @@ Base.Main.prototype = {
 			wordsPerMin.setText("WPM:" + wpm);
 			var acc = Number(Base.correctChars / (Base.correctChars + Base.incorrectChars) * 100).toFixed(0);
 			accuracy.setText("ACC:" + acc + "%");
+			health.setText(" HP:" + Base.lives);
 		}
 
     	game.time.events.loop(Phaser.Timer.SECOND, logTime, this);
 
-		wordsPerMin = game.add.text(100, 75, "WPM:0", { font: "32px myfont", fill: "#ffffff", align: "left" });
+		wordsPerMin = game.add.text(80, 75, "WPM:0", { font: "32px myfont", fill: "#ffffff", align: "left" });
 
 		// Accuracy
 
-		accuracy = game.add.text(100, 100, "ACC:0%", { font: "32px myfont", fill: "#ffffff", align: "left" });
+		accuracy = game.add.text(80, 100, "ACC:0%", { font: "32px myfont", fill: "#ffffff", align: "left" });
 
+		var health = game.add.text(80, 125, " HP:3", { font: "32px myfont", fill: "#ffffff", align: "left" });
+ 
 	    game.physics.startSystem(Phaser.Physics.ARCADE);
 
 	},
