@@ -3,7 +3,8 @@ var Base = {
 	gameWidth: 1280,
 	gameHeight: 720,
   tweetList: [],
-  correctChars: 0
+  correctChars: 0,
+  tweets: []
 }
 
 var config = {width: Base.gameWidth, height: Base.gameHeight, renderer: Phaser.AUTO, forceSetTimeOut: false};
@@ -25,6 +26,7 @@ Base.Boot.prototype = {
     this.load.script('SCRIPT_MENU', 'src/menu.js'); 
     this.load.script('SCRIPT_MAIN', 'src/main.js');
     this.load.script('SCRIPT_TWEET', 'src/tweet.js');
+    game.load.json("tweets", "assets/tweets.json");
 
 
     this.load.atlas('trump', 'assets/spritesheet.png', 'assets/spritesheet.json');
@@ -43,6 +45,8 @@ Base.Boot.prototype = {
 
   // Create stuff in phaser
   create: function () {
+    Base.tweets = game.cache.getJSON("tweets");
+
     // Set game scale with page
     game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
     //game.scale.pageAlignHorizontally = true;
