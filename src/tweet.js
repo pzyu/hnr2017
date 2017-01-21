@@ -8,12 +8,16 @@ Base.Tweet = function(count) {
 	this.lengthPercentage = 100;
 	this.textWidth = 300;
 
+	// If this tweet is current
+	this.isCurrent = false;
+
 	// Padding for spawn
 	this.paddingLeft = 100;
 	this.paddingRight = 250;
 
 	// Falling speed
 	this.speedY = 0.4;
+	this.speedX = (Math.random() * 5) + 1;
 
 	// Add emitter
 	this.emitter;
@@ -65,6 +69,9 @@ Base.Tweet.prototype.move = function() {
 		// Die and spawn
 		this.spawn(1);
 	}
+
+
+
 };
 
 Base.Tweet.prototype.handleStatus = function() {
@@ -109,7 +116,7 @@ Base.Tweet.prototype.emitBlood = function() {
 
 Base.Tweet.prototype.spawn = function(count) {
 	var index = Number(Math.random() * Base.tweets.tweets.length).toFixed(0);
-	console.log(index);//Base.tweets.tweets[index]);
+	//console.log(index);//Base.tweets.tweets[index]);
 	this.text = Base.tweets.tweets[index];//"I loved beating these two terrible human beings. I would never recommend that anyone use her lawyer, he is a total loser!";
 	this.textLength = this.text.length;
 
@@ -122,13 +129,28 @@ Base.Tweet.prototype.spawn = function(count) {
 
     // Text object
 	this.textObject.anchor.set(0, 0);
-	this.textObject.addColor("#fff", 1);
+	var startFrom = this.isCurrent ? 1 : 0;
+	console.log(startFrom);
+	this.textObject.addColor("#7CFC00", 0);
+	this.textObject.addColor("#fff", startFrom);
+
+
+	// Add tween
+	var tweenDist = (Math.random() * 100) + 50;
+	var tweenSpeed = (Math.random() * 2000) + 1000;
+
+	var tween = game.add.tween(this).to( { x: this.x + tweenDist}, tweenSpeed, Phaser.Easing.Linear.None, true, 0, -1);
+	tween.yoyo(true, 0)
 };
 
 Base.Tweet.prototype.removeFirst = function(key) {
 	this.text = this.text.substring(1);
 	this.textObject.setText(this.text);
-	this.textObject.addColor("#fff", 1);
+
+	var startFrom = this.isCurrent ? 1 : 0;
+	console.log(this.isCurrent + " " + startFrom);
+	this.textObject.addColor("#7CFC00", 0);
+	this.textObject.addColor("#fff", startFrom);
 
 	this.handleStatus();
 

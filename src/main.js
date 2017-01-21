@@ -3,17 +3,19 @@ Base.Main = function() {
 	Base.tweetList = [];
 	this.tweetAmt = 5;
 	Base.correctChars = 0;
+
+	// Keep track of current tweet
+	this.currentIndex = 0;
+	this.isReset = false;
+
 	// Keyboard
 	this.keyboard = game.input.keyboard;
 	this.keyboard.onDownCallback = this.checkInput;
 	this.keyboard.callbackContext = this;
-
 };
 
 Base.Main.prototype = {
 	// Load whatever we need for Boot first
-
-
 	preload: function() {
 		// Preload our assets
     	game.load.image("spark", "assets/spark.png");
@@ -21,12 +23,9 @@ Base.Main.prototype = {
 		// Load sprite sheet (key, path, width, height, numOfFrames)
 		//game.load.spritesheet("trump", "assets/spritesheet.png", 64, 64, 30);
 		game.load.json("tweets", "assets/tweets.json");
-
-		
 	},
 
 	create: function() {
-
 		console.log(game.cache.getJSON("tweets"));
 
 		// Add background
@@ -59,6 +58,9 @@ Base.Main.prototype = {
 			Base.tweetList[i].emitter = this.trumpEmitter;
 		}
 
+		// Set is current of first one as true
+		Base.tweetList[this.currentIndex].isCurrent = true;
+
 		// Add timer
 		var text = 0;
 		var timeElapsed = 0;
@@ -83,23 +85,60 @@ Base.Main.prototype = {
 
 	// Retrieve key from first tweet
 	checkInput: function(key) {
-		var currentTweet = Base.tweetList[0];
-		var currentChar = currentTweet.getFirst();
+		if (game.state.current == "STATE_MENU") {
+	    	game.state.start("STATE_MAIN");
+	    	return;
+		}
 
-		// console.log("Char code:" + currentChar);
-		// console.log("My key: " + key.key);
 
-		// If valid
-		if (key.key == currentChar) {
-			currentTweet.removeFirst(key.key);
-			// Add particle burst
-			Base.correctChars++;
-			this.emitter.x = currentTweet.textObject.x;
-			this.emitter.y = currentTweet.textObject.y + 5;
-			this.emitter.start(true, 1000, null, 10);
+		// Backspace
+		if (key.keyCode == 8) {
+			// Reset color
+			Base.tweetList[this.currentIndex].textObject.addColor("#fff", 0);
+			// Reset current index
+			this.currentIndex = null;
+		}
+
+		// If we have selected a tweet
+		if (this.currentIndex != null) {
+			var currentTweet = Base.tweetList[this.currentIndex];
+			var currentChar = currentTweet.getFirst();
+
+			// Set the is current
+			Base.tweetList[this.currentIndex].isCurrent = true;
+			// console.log("Char code:" + currentChar);
+			// console.log("My key: " + key.key);
+
+			// If valid
+			if (key.key == currentChar) {
+				currentTweet.removeFirst(key.key);
+				// Add particle burst
+				Base.correctChars++;
+				this.emitter.x = currentTweet.textObject.x;
+				this.emitter.y = currentTweet.textObject.y + 5;
+				this.emitter.start(true, 1000, null, 10);
+			} else {
+				// Punish
+				currentTweet.playSmile();
+			}
 		} else {
-			// Punish
-			currentTweet.playSmile();
+
+			// Otherwise, look through array
+			for (var i = 0; i < this.tweetAmt; i++) {
+				// We have found a tweet and index
+				if(Base.tweetList[i].getFirst() == key.key) {
+					// Set current index 
+					this.currentIndex = i;
+					Base.correctChars++;
+
+					// Remove the key as usual then break
+					Base.tweetList[i].removeFirst(key.key);
+					this.emitter.x = Base.tweetList[i].textObject.x;
+					this.emitter.y = Base.tweetList[i].textObject.y + 5;
+					this.emitter.start(true, 1000, null, 10);
+					break;
+				}
+			}
 		}
 	}
 
