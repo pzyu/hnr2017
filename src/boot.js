@@ -24,6 +24,9 @@ Base.Boot.prototype = {
     this.load.script('SCRIPT_MENU', 'src/menu.js'); 
     this.load.script('SCRIPT_MAIN', 'src/main.js');
     this.load.script('SCRIPT_TWEET', 'src/tweet.js');
+
+
+    this.load.atlas('trump', 'assets/spritesheet.png', 'assets/spritesheet.json');
   },
 
   loadFonts: function() {

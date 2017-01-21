@@ -17,7 +17,7 @@ Base.Main.prototype = {
 		game.load.image("background", "assets/background.png");
 		game.load.image("spark", "assets/spark.png");
 		// Load sprite sheet (key, path, width, height, numOfFrames)
-		game.load.spritesheet("trump", "assets/trump.png", 64, 64, 18);
+		//game.load.spritesheet("trump", "assets/spritesheet.png", 64, 64, 30);
 		
 	},
 
