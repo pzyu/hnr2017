@@ -169,6 +169,7 @@ Base.Tweet.prototype.removeFirst = function(key) {
 
 	// If we have finished typing
 	if (this.text == "") {
+		Base.score += 100;
 		this.emitBlood();
 		// Shift first element to end of array
 		Base.tweetList.push(Base.tweetList.shift());

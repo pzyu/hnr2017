@@ -3,13 +3,15 @@ Base.Main = function() {
 	Base.tweetList = [];
 	this.tweetAmt = 5;
 	Base.correctChars = 0;
+	Base.incorrectChars = 0;
+	Base.lives = 3;
+	Base.score = 0;
 
 	// Keep track of current tweet
 	Base.currentIndex = 0;
 	this.isReset = false;
 
-	Base.incorrectChars = 0;
-	Base.lives = 3;
+
 
 	// Keyboard
 	this.keyboard = game.input.keyboard;
@@ -65,30 +67,27 @@ Base.Main.prototype = {
 		Base.tweetList[Base.currentIndex].isCurrent = true;
 
 		// Add timer
-		var text = 0;
+
 		// WPM
-		var wordsPerMin = 0;
-		var accuracy = 0;
 		var timeElapsed = 0;
 		
 		function logTime() {
 			timeElapsed++;
 			var wpm = Number(Base.correctChars / 5 / (timeElapsed / 60)).toFixed(0);
-			wordsPerMin.setText("WPM:" + wpm);
+			wordsPerMin.setText("  WPM:" + wpm);
 			var acc = Number(Base.correctChars / (Base.correctChars + Base.incorrectChars) * 100).toFixed(0);
-			accuracy.setText("ACC:" + acc + "%");
-			health.setText(" HP:" + Base.lives);
+			accuracy.setText("  ACC:" + acc + "%");
+			health.setText("   HP:" + Base.lives);
+			score.setText("SCORE:" + Base.score);
 		}
 
     	game.time.events.loop(Phaser.Timer.SECOND, logTime, this);
 
-		wordsPerMin = game.add.text(80, 75, "WPM:0", { font: "32px myfont", fill: "#ffffff", align: "left" });
+    	var score = game.add.text(60, 50, "SCORE:0", { font: "32px myfont", fill: "#ffffff", align: "left" });
+		var wordsPerMin = game.add.text(60, 75, "  WPM:0", { font: "32px myfont", fill: "#ffffff", align: "left" });
+		var accuracy = game.add.text(60, 100, "  ACC:0%", { font: "32px myfont", fill: "#ffffff", align: "left" });
+		var health = game.add.text(60, 125, "   HP:3", { font: "32px myfont", fill: "#ffffff", align: "left" });
 
-		// Accuracy
-
-		accuracy = game.add.text(80, 100, "ACC:0%", { font: "32px myfont", fill: "#ffffff", align: "left" });
-
-		var health = game.add.text(80, 125, " HP:3", { font: "32px myfont", fill: "#ffffff", align: "left" });
  
 	    game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -133,6 +132,7 @@ Base.Main.prototype = {
 				this.emitter.start(true, 1000, null, 10);
 			} else {
 				// Punish
+				Base.score -= 1;
 				Base.incorrectChars++;
 				currentTweet.playSmile();
 			}
