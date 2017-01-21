@@ -9,6 +9,7 @@ var Base = {
   lives: 3,
   tweets: [],
   score: 0,
+  speedConstant: 40,
   music: {}
 }
 

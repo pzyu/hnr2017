@@ -126,7 +126,7 @@ Base.Tweet.prototype.spawn = function(count) {
 	this.text = Base.tweets.tweets[index];
 
 	this.textLength = this.text.length;
-	this.speedY = 40 / this.textLength;
+	this.speedY = Base.speedConstant / this.textLength;
 
 	this.lengthPercentage = this.text.length/this.textLength * 100;
 
