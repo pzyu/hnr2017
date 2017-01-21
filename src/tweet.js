@@ -13,7 +13,7 @@ Base.Tweet = function(count) {
 	this.paddingRight = 250;
 
 	// Falling speed
-	this.speedY = 0.4;
+	this.speedY = 40;
 
 	// Add emitter
 	this.emitter;
@@ -109,9 +109,9 @@ Base.Tweet.prototype.emitBlood = function() {
 
 Base.Tweet.prototype.spawn = function(count) {
 	var index = Number(Math.random() * Base.tweets.tweets.length).toFixed(0);
-	console.log(index);//Base.tweets.tweets[index]);
 	this.text = Base.tweets.tweets[index];//"I loved beating these two terrible human beings. I would never recommend that anyone use her lawyer, he is a total loser!";
 	this.textLength = this.text.length;
+	this.speedY *= 1 / this.textLength;
 
 	this.lengthPercentage = this.text.length/this.textLength * 100;
 
