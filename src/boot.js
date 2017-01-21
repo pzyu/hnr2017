@@ -1,7 +1,8 @@
 // Global object
 var Base = {
 	gameWidth: 1280,
-	gameHeight: 720
+	gameHeight: 720,
+  tweetList: []
 }
 
 var config = {width: Base.gameWidth, height: Base.gameHeight, renderer: Phaser.AUTO, forceSetTimeOut: false};
@@ -46,7 +47,7 @@ Base.Boot.prototype = {
       // Add loading text
       this.status = game.add.text(Base.gameWidth/2, Base.gameHeight/2, 'Loading...', {font: "32px myfont", fill: 'white'});
 
-      // Main state goes to main gamee
+      // Main state goes to main game
       game.state.add('STATE_MAIN', Base.Main);
       game.state.start('STATE_MAIN');
     }, 500);

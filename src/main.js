@@ -1,9 +1,12 @@
 Base.Main = function() {
 	// Variables we want to use
-	this.tweetList;
-	// this.keyboard = game.input.keyboard;
-	// this.keyboard.onDownCallback = this.checkInput;
-	// this.keyboard.callbackContext = this;
+	Base.tweetList = [];
+	this.tweetAmt = 5;
+	
+	// Keyboard
+	this.keyboard = game.input.keyboard;
+	this.keyboard.onDownCallback = this.checkInput;
+	this.keyboard.callbackContext = this;
 };
 
 Base.Main.prototype = {
@@ -14,7 +17,6 @@ Base.Main.prototype = {
 		// Load sprite sheet (key, path, width, height, numOfFrames)
 		game.load.spritesheet("trump", "assets/trump.png", 64, 64, 18);
 		
-	console.log("eleadas");
 	},
 
 	create: function() {
@@ -28,21 +30,33 @@ Base.Main.prototype = {
 		background.height = game.scale.height;
 
 		// Add WPM
-		var test = new Base.Tweet();
-		game.add.existing(test);
+
+		// Create all tweets and store in array
+		for (var i = 0; i < this.tweetAmt; i++) {
+			console.log("Spawning");
+			var newTweet = new Base.Tweet(i);
+			Base.tweetList[i] = newTweet;
+			game.add.existing(newTweet);
+		}
 	},
 
 	update: function() {
 
-	}
+	},
 
-	// checkInput: function(key) {
-	// var currentChar = this.text.charAt(0).toLowerCase();
-	// // console.log(currentChar +": "+ this.text.charAt(0));
-	// // console.log(key.keyCode +": "+key.key);
-	// if (currentChar == key.key) {
-	// 	// console.log("Remove");
-	// 	this.text = this.text.substring(1);
-	// 	this.textObject.setText(this.text);
-	// }
+	// Retrieve key from first tweet
+	checkInput: function(key) {
+		var currentTweet = Base.tweetList[0];
+		var currentChar = currentTweet.getFirst();
+
+		// console.log("Char code:" + currentChar);
+		// console.log("My key: " + key.key);
+
+		// If valid
+		if (key.key == currentChar) {
+			currentTweet.removeFirst();
+		} else {
+			// Punish
+		}
+	}
 };
