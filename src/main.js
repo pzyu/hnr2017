@@ -6,6 +6,7 @@ Base.Main = function() {
 	Base.incorrectChars = 0;
 	Base.lives = 3;
 	Base.score = 0;
+	Base.speedConstant = 40;
 
 	// Keep track of current tweet
 	Base.currentIndex = 0;
@@ -79,6 +80,7 @@ Base.Main.prototype = {
 			accuracy.setText("  ACC:" + acc + "%");
 			health.setText("   HP:" + Base.lives);
 			score.setText("SCORE:" + Base.score);
+			Base.speedConstant *= 1.01;
 		}
 
     	game.time.events.loop(Phaser.Timer.SECOND, logTime, this);
