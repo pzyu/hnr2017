@@ -7,6 +7,7 @@ var Base = {
   incorrectChars: 0,
   lives: 3,
   tweets: [],
+  score: 0,
   music: {}
 }
 
