@@ -8,7 +8,10 @@ Base.Main.prototype = {
 	preload: function() {
 		// Preload our assets
 		game.load.image("background", "assets/background.png");
+		// Load sprite sheet (key, path, width, height, numOfFrames)
 		game.load.spritesheet("trump", "assets/trump.png", 64, 64, 18);
+		
+	console.log("eleadas");
 	},
 
 	create: function() {
@@ -16,8 +19,6 @@ Base.Main.prototype = {
 		// Create an array of tweets and reuse them
 		// When it dies or goes out of screen, then move it above the screen and refresh the tweet
 
-
-		// var mySprite;
 		// Add background
 		var background = game.add.sprite(0, 0, "background");
 		background.width = game.scale.width;
@@ -25,7 +26,7 @@ Base.Main.prototype = {
 
 		// Add WPM
 		var test = new Base.Tweet();
-		this.game.add.existing(test);
+		game.add.existing(test);
 	},
 
 	update: function() {
