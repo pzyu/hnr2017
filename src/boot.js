@@ -53,8 +53,7 @@ Base.Boot.prototype = {
 
     // Setup music
     Base.music = game.add.audio('USA');
-    Base.music.volume = 0.1;
-    Base.music.play();
+    Base.music.play("", 0, 0.3, true);
     
 
     // Set game scale with page
