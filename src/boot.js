@@ -12,7 +12,8 @@ var Base = {
   speedConstant: 40,
   music: {},
   coinSFX: null,
-  billSFX: null
+  billSFX: null,
+  trumpSFX: []
 }
 
 var config = {width: Base.gameWidth, height: Base.gameHeight, renderer: Phaser.AUTO, forceSetTimeOut: false};
@@ -42,6 +43,15 @@ Base.Boot.prototype = {
     game.load.audio('USA', 'assets/USA.mp3');
     game.load.audio('SFX_bill', 'assets/bill.wav');
     game.load.audio('SFX_coin', 'assets/coin.wav');
+
+    game.load.audio('SFX_vx_0', 'assets/the_american_dream_is_dead.wav');
+    game.load.audio('SFX_vx_1', 'assets/thank_you_darling.wav');
+    game.load.audio('SFX_vx_2', 'assets/ive_been_watching_you_for_the_last_couple_of_weeks.mp3');
+    game.load.audio('SFX_vx_3', 'assets/im_really_rich.wav');
+    game.load.audio('SFX_vx_4', 'assets/i_just_want_them_to_suffer.mp3');
+    game.load.audio('SFX_vx_5', 'assets/i_beat_china_all_the_time.wav');
+    game.load.audio('SFX_vx_6', 'assets/fantastic.mp3');
+    game.load.audio('SFX_vx_7', 'assets/maga.wav');
   },
 
   loadFonts: function() {
@@ -60,7 +70,6 @@ Base.Boot.prototype = {
 
     // Setup music
     Base.music = game.add.audio('USA');
-    Base.music.play("", 0, 0.3, true);
     
 
     // Set game scale with page
@@ -83,6 +92,10 @@ Base.Boot.prototype = {
 
     Base.coinSFX = new Phaser.Sound(game, "SFX_coin", 0.1);
     Base.billSFX = new Phaser.Sound(game, "SFX_bill", 0.3);
+
+    for (var i = 0; i < 8; i++) {
+      Base.trumpSFX[i] = new Phaser.Sound(game, "SFX_vx_" + i, 1);
+    }
   }
 };
 
