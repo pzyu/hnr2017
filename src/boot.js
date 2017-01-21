@@ -26,7 +26,7 @@ Base.Boot.prototype = {
     this.load.script('SCRIPT_MENU', 'src/menu.js'); 
     this.load.script('SCRIPT_MAIN', 'src/main.js');
     this.load.script('SCRIPT_TWEET', 'src/tweet.js');
-    game.load.json("tweets", "assets/tweets.json");
+    Base.tweets = game.load.json("tweets", "assets/tweets.json");
 
 
     this.load.atlas('trump', 'assets/spritesheet.png', 'assets/spritesheet.json');
