@@ -71,7 +71,9 @@ Base.Tweet.prototype.handleStatus = function() {
 }
 
 Base.Tweet.prototype.spawn = function(count) {
-	this.text = "I loved beating these two terrible human beings. I would never recommend that anyone use her lawyer, he is a total loser!";
+	var index = Number(Math.random() * Base.tweets.tweets.length).toFixed(0);
+	console.log(index);//Base.tweets.tweets[index]);
+	this.text = Base.tweets.tweets[index];//"I loved beating these two terrible human beings. I would never recommend that anyone use her lawyer, he is a total loser!";
 	this.textLength = this.text.length;
 
 	this.lengthPercentage = this.text.length/this.textLength * 100;
