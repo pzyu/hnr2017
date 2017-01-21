@@ -2,7 +2,8 @@
 var Base = {
 	gameWidth: 1280,
 	gameHeight: 720,
-  tweetList: []
+  tweetList: [],
+  correctChars: 0
 }
 
 var config = {width: Base.gameWidth, height: Base.gameHeight, renderer: Phaser.AUTO, forceSetTimeOut: false};
