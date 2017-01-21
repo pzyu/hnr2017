@@ -28,6 +28,7 @@ Base.Boot.prototype = {
 
 
     this.load.atlas('trump', 'assets/spritesheet.png', 'assets/spritesheet.json');
+    game.load.image("background", "assets/background.png");
   },
 
   loadFonts: function() {

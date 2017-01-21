@@ -13,7 +13,10 @@ Base.Tweet = function(count) {
 	this.paddingRight = 250;
 
 	// Falling speed
-	this.speedY = 0.15;
+	this.speedY = 0.4;
+
+	// Add emitter
+	this.emitter;
 
 	// Animation state has default, hurt, bleed, fatal, dead
 	this.animState = "default";
@@ -67,7 +70,41 @@ Base.Tweet.prototype.move = function() {
 Base.Tweet.prototype.handleStatus = function() {
 	this.lengthPercentage = this.text.length/this.textLength * 100;
 
-	console.log(this.lengthPercentage);
+	// Check length percentage
+	if (this.lengthPercentage < 20) {
+		// Dead
+		if (this.animState != "dead") {
+			this.animState = "dead";
+			this.emitBlood();
+		}
+	} else if (this.lengthPercentage < 40) {
+		// Fatal
+		if (this.animState != "fatal") {
+	 		this.animState = "fatal";
+			this.emitBlood();
+		}
+	} else if (this.lengthPercentage < 60) {
+		// Bleed
+		if (this.animState != "bleed") {
+			this.animState = "bleed";
+			this.emitBlood();
+		}
+	} else if (this.lengthPercentage < 80) {
+		// Hurt
+		if (this.animState != "hurt") {
+			this.animState = "hurt";
+			this.emitBlood();
+		}
+	} else {
+		// Default
+		this.animState = "default";
+	}
+};
+
+Base.Tweet.prototype.emitBlood = function() {
+	this.emitter.x = this.x + this.width/2;
+	this.emitter.y = this.y + this.height/2;
+	this.emitter.start(true, 1500, null, 50);
 }
 
 Base.Tweet.prototype.spawn = function(count) {
@@ -84,9 +121,6 @@ Base.Tweet.prototype.spawn = function(count) {
     // Text object
 	this.textObject.anchor.set(0, 0);
 	this.textObject.addColor("#fff", 1);
-
-	// Shift first element to end of array
-	//console.log(Base.tweetList);
 };
 
 Base.Tweet.prototype.removeFirst = function(key) {
@@ -96,7 +130,15 @@ Base.Tweet.prototype.removeFirst = function(key) {
 
 	this.handleStatus();
 
+	// If we have completed a word, Trump will be angry
+	if (key === " ") {
+		this.playAngry();
+	}
+
+	// If we have finished typing
 	if (this.text == "") {
+		this.emitBlood();
+		// Shift first element to end of array
 		Base.tweetList.push(Base.tweetList.shift());
 		this.spawn(1);
 	}
@@ -108,9 +150,17 @@ Base.Tweet.prototype.getFirst = function() {
 
 Base.Tweet.prototype.centerTextOnSprite = function() {
 	this.textObject.x = Math.floor(this.x - this.width - 20);
-	this.textObject.y = Math.floor(this.y + this.height + 20);
+	this.textObject.y = Math.floor(this.y + this.height + 5);
 };
 
 Base.Tweet.prototype.playIdle = function() {
 	this.animations.play("anim_idle_" + this.animState);
+};
+
+Base.Tweet.prototype.playAngry = function() {
+	this.animations.play("anim_angry_" + this.animState);
+};
+
+Base.Tweet.prototype.playSmile = function() {
+	this.animations.play("anim_smile_" + this.animState);
 };

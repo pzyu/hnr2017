@@ -16,17 +16,18 @@ Base.Main.prototype = {
 
 	preload: function() {
 		// Preload our assets
-		game.load.image("background", "assets/background.png");
-		game.load.image("spark", "assets/spark.png");
+    	game.load.image("spark", "assets/spark.png");
+    	game.load.image("blood", "assets/blood.png");
 		// Load sprite sheet (key, path, width, height, numOfFrames)
 		//game.load.spritesheet("trump", "assets/spritesheet.png", 64, 64, 30);
-		game.load.json("test", "assets/spritesheet.json");
+		game.load.json("tweets", "assets/tweets.json");
+
 		
 	},
 
 	create: function() {
 
-		console.log(game.cache.getJSON("test"));
+		console.log(game.cache.getJSON("tweets"));
 
 		// Add background
 		var background = game.add.sprite(0, 0, "background");
@@ -40,13 +41,22 @@ Base.Main.prototype = {
 		this.emitter.gravity = 200;
 		this.emitter.setAlpha(0, 1, 100);
 
-
 		// Create all tweets and store in array
 		for (var i = 0; i < this.tweetAmt; i++) {
 			console.log("Spawning");
 			var newTweet = new Base.Tweet(i);
 			Base.tweetList[i] = newTweet;
 			game.add.existing(newTweet);
+		}
+
+		this.trumpEmitter = game.add.emitter(0, 0, 100);
+		// Init emitter
+		this.trumpEmitter.makeParticles("blood");
+		this.trumpEmitter.gravity = 100;
+		this.trumpEmitter.setAlpha(0, 1, 100);
+
+		for (var i = 0; i < this.tweetAmt; i++) {
+			Base.tweetList[i].emitter = this.trumpEmitter;
 		}
 
 		// Add timer
@@ -81,15 +91,15 @@ Base.Main.prototype = {
 
 		// If valid
 		if (key.key == currentChar) {
-			currentTweet.removeFirst();
+			currentTweet.removeFirst(key.key);
 			// Add particle burst
 			Base.correctChars++;
 			this.emitter.x = currentTweet.textObject.x;
 			this.emitter.y = currentTweet.textObject.y + 5;
-			console.log(this.emitter);
 			this.emitter.start(true, 1000, null, 10);
 		} else {
 			// Punish
+			currentTweet.playSmile();
 		}
 	}
 
