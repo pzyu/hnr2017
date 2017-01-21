@@ -3,6 +3,7 @@ Base.Main = function() {
 	Base.tweetList = [];
 	this.tweetAmt = 5;
 	Base.correctChars = 0;
+	Base.incorrectChars = 0;
 	// Keyboard
 	this.keyboard = game.input.keyboard;
 	this.keyboard.onDownCallback = this.checkInput;
@@ -59,19 +60,26 @@ Base.Main.prototype = {
 			Base.tweetList[i].emitter = this.trumpEmitter;
 		}
 
-		// Add timer
-		var text = 0;
+		// WPM
+		var wordsPerMin = 0;
+		var accuracy = 0;
 		var timeElapsed = 0;
 		
 		function logTime() {
 			timeElapsed++;
-			var WPM = Number(Base.correctChars / 5 / (timeElapsed / 60)).toFixed(0);
-			text.setText("WPM:" + WPM);
+			var wpm = Number(Base.correctChars / 5 / (timeElapsed / 60)).toFixed(0);
+			wordsPerMin.setText("WPM:" + wpm);
+			var acc = Number(Base.correctChars / (Base.correctChars + Base.incorrectChars) * 100).toFixed(0);
+			accuracy.setText("ACC:" + acc + "%");
 		}
 
     	game.time.events.loop(Phaser.Timer.SECOND, logTime, this);
 
-		text = game.add.text(100, 75, "WPM:0", { font: "32px myfont", fill: "#ffffff", align: "left" });
+		wordsPerMin = game.add.text(100, 75, "WPM:0", { font: "32px myfont", fill: "#ffffff", align: "left" });
+
+		// Accuracy
+
+		accuracy = game.add.text(100, 100, "ACC:0%", { font: "32px myfont", fill: "#ffffff", align: "left" });
 
 	    game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -99,6 +107,7 @@ Base.Main.prototype = {
 			this.emitter.start(true, 1000, null, 10);
 		} else {
 			// Punish
+			Base.incorrectChars++;
 			currentTweet.playSmile();
 		}
 	}
