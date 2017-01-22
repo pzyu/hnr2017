@@ -10,10 +10,6 @@ Base.Main = function() {
 
 	// Keep track of current tweet
 	Base.currentIndex = null;
-	this.isReset = false;
-
-	this.isInMenu = true;
-	this.isGameOver = false;
 
 	// Keyboard
 	this.keyboard = game.input.keyboard;
@@ -53,6 +49,10 @@ Base.Main.prototype = {
 		this.textMenu = game.add.text(game.world.centerX, 0, "#MTGA");
 		//this.textMenu = game.add.text(game.world.centerX, game.world.centerY - 50, "#MTGA");
 
+		this.isReset = false;
+
+		this.isInMenu = true;
+		this.isGameOver = false;
 	    //  Centers the text
 	    this.textMenu.anchor.set(0.5);
 	    this.textMenu.align = 'center';
@@ -94,6 +94,7 @@ Base.Main.prototype = {
 	    this.textReflect.fill = grd;
 
 	    this.menuDone = false;
+	    this.isClicked = false;
 	  
 	    
 
@@ -113,14 +114,17 @@ Base.Main.prototype = {
 		    this.menuDone = true;
 
 		    this.optionText.events.onInputUp.add(function () {
-		    	this.isInMenu = false;
-		    	this.menuFadeOut();
-				Base.billSFX.play();
-				if (this.isGameOver) {
+		    	if (!this.isClicked) {
+		    		this.isInMenu = false;
+		    		this.menuFadeOut();
+		    		this.isClicked = true;
+				}
+				if (this.isGameOver && this.isClicked) {
 					Base.lives = 3;
 					this.isGameOver = false;
 					game.state.start("STATE_MAIN");
 				}
+				Base.billSFX.play();
 		    }, this);
 
 		    this.optionText.events.onInputOver.add(function (target) {
@@ -228,7 +232,7 @@ Base.Main.prototype = {
 	},
 
 	update: function() {
-		if (Base.lives <= 0 && !this.isGameOver) {
+		if (Base.lives <= 2 && !this.isGameOver) {
 			this.isGameOver = true;
 
 			// Fantastic
@@ -260,6 +264,13 @@ Base.Main.prototype = {
 	checkInput: function(key) {
 		if (!this.menuDone) {
 			return;
+		}
+		
+		if (this.isGameOver) {
+			this.isClicked = false;
+			Base.lives = 3;
+			this.isGameOver = false;
+			game.state.start("STATE_MAIN");
 		}
 
 		if (this.isInMenu) {

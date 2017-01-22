@@ -98,7 +98,7 @@ Base.Tweet.prototype.move = function() {
 		// If it's a tutorial, spawn further back
 		if (this.isTutorial) {
 			this.isTutorial = false;
-			this.spawn(4);
+			this.spawn(4.5);
 		} else {
 			this.spawn(1);
 		}
@@ -247,7 +247,7 @@ Base.Tweet.prototype.removeFirst = function(key) {
 		// If it's a tutorial, spawn further back
 		if (this.isTutorial) {
 			this.isTutorial = false;
-			this.spawn(4);
+			this.spawn(4.5);
 		} else {
 			this.spawn(1);
 		}
