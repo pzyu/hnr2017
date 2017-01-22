@@ -40,6 +40,7 @@ Base.Boot.prototype = {
 
     this.load.atlas('trump', 'assets/spritesheet.png', 'assets/spritesheet.json');
     game.load.image("background", "assets/background.png");
+    game.load.spritesheet("trump_portrait", "assets/portrait.png", 320, 320, 2)
     game.load.audio('USA', 'assets/USA.mp3');
     game.load.audio('SFX_bill', 'assets/bill.wav');
     game.load.audio('SFX_coin', 'assets/coin.wav');

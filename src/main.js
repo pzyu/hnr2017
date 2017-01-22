@@ -41,6 +41,14 @@ Base.Main.prototype = {
 		background.width = game.scale.width;
 		background.height = game.scale.height;
 
+		this.portrait = game.add.sprite(game.world.centerX - 500, -350, "trump_portrait");
+		this.portrait.animations.add("idle");
+		this.portrait.animations.play("idle", 1, true);
+
+		this.portraitSpeed = 2;
+		this.portraitX = this.portraitSpeed;
+		this.portraitY = this.portraitSpeed;
+
 		Base.trumpSFX[7].play();
     	Base.music.play("", 0, 0.3, true);
 
@@ -106,6 +114,7 @@ Base.Main.prototype = {
 
     	var titleTween = game.add.tween(this.textMenu).to({y: game.world.centerY - 50}, 2500, "Linear", true);
     	game.add.tween(this.textReflect).to({y: game.world.centerY}, 2500, "Linear", true);
+    	game.add.tween(this.portrait).to({y: 0}, 2500, "Linear", true);
 
     	titleTween.onComplete.add(function() {
     		game.camera.shake(0.01, 500);
@@ -152,6 +161,7 @@ Base.Main.prototype = {
     	var menuTween = game.add.tween(this.textMenu).to( { alpha: 0 }, 1000, "Linear", true);
     	menuTween.onComplete.add(this.initGame, this);
     	this.tween = game.add.tween(this.optionText).to( { alpha: 0 }, 1000, "Linear", true, 0, 0);
+    	game.add.tween(this.portrait).to( { alpha: 0 }, 1000, "Linear", true, 0, 0);
 	},
 
 	menuFadeIn: function() {
@@ -239,6 +249,32 @@ Base.Main.prototype = {
 	},
 
 	update: function() {
+		if (this.menuDone && this.isInMenu) {
+			// Hit right
+			if (this.portrait.x + this.portrait.width >= game.scale.width) {
+				this.portraitX = -this.portraitSpeed;
+				game.camera.shake(0.01, 200);
+			} 
+
+			if (this.portrait.y + this.portrait.height >= game.scale.height) {
+				this.portraitY = -this.portraitSpeed;
+				game.camera.shake(0.01, 200);
+			}
+
+			if (this.portrait.x <= 0) {
+				this.portraitX = this.portraitSpeed;
+				game.camera.shake(0.01, 200);
+			}
+
+			if (this.portrait.y <= 0) {
+				this.portraitY = this.portraitSpeed;
+				game.camera.shake(0.01, 200);
+			}
+
+			this.portrait.x += this.portraitX;
+			this.portrait.y += this.portraitY;
+		}
+
 		if (Base.lives <= 0 && !this.isGameOver) {
 			this.isGameOver = true;
 
