@@ -15,6 +15,9 @@ Base.Main = function() {
 	this.keyboard = game.input.keyboard;
 	this.keyboard.onDownCallback = this.checkInput;
 	this.keyboard.callbackContext = this;
+
+	this.konami = [38, 38, 40, 40, 37, 39, 37, 39, 65, 66];
+	this.konamiIndex = 0;
 };
 
 Base.Main.prototype = {
@@ -268,6 +271,20 @@ Base.Main.prototype = {
 	checkInput: function(key) {
 		if (!this.menuDone) {
 			return;
+		}
+
+		console.log(key.keyCode);
+		if (key.keyCode == this.konami[this.konamiIndex]) {
+			// console.log("yes");
+			this.konamiIndex++;
+			if (this.konamiIndex >= this.konami.length) {
+				// alert("notice me senpai~");
+
+				this.score.setText("I ♥ Prof. Martin");
+			}
+		} else {
+			// console.log("no");
+			this.konamiIndex = 0;
 		}
 
 		if (this.isGameOver) {
