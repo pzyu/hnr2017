@@ -94,7 +94,6 @@ Base.Tweet.prototype.move = function() {
 		//console.log("Dead tweet" + Base.currentIndex);
 		//Base.music._sound.playbackRate.value *= 0.8;
 		Base.music._sound.playbackRate.value *= 1.2;
-		Base.music._sound.detune(0);
 		// Die and spawn
 		// If it's a tutorial, spawn further back
 		if (this.isTutorial) {
@@ -118,7 +117,7 @@ Base.Tweet.prototype.handleStatus = function() {
 			this.emitBlood();
 			Base.billSFX.play();
 			this.playRandomTrump();
-			game.camera.shake(0.005, 100);	
+			game.camera.shake(0.01, 100);	
 		}
 	} else if (this.lengthPercentage < 40) {
 		// Fatal

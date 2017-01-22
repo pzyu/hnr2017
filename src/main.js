@@ -265,7 +265,7 @@ Base.Main.prototype = {
 		if (!this.menuDone) {
 			return;
 		}
-		
+
 		if (this.isGameOver) {
 			this.isClicked = false;
 			Base.lives = 3;
