@@ -63,6 +63,9 @@ Base.Main.prototype = {
 	    this.textMenu.fontSize = 100;
 	    this.textMenu.fill = '#ffffff';
 
+	    Base.correctChars = 0;
+	    Base.incorrectChars = 0;
+
 	    //  Here we create our fake reflection :)
 	    //  It's just another Text object, with an alpha gradient and flipped vertically
 
@@ -178,11 +181,11 @@ Base.Main.prototype = {
 		// 	game.add.existing(newTweet);
 		// }
 
-		Base.tweetList[0] = new Base.Tweet(0, "Welcome to #MakeTypingGreatAgain");
+		Base.tweetList[0] = new Base.Tweet(0, "Welcome to #Make Typing Great Again");
 		Base.tweetList[1] = new Base.Tweet(1, "This is a modest collection of Donald Trump's tweets, and your job is to type them out");
-		Base.tweetList[2] = new Base.Tweet(2, "You can play by simply typing the first letter of the tweet. Letters are case-senstive!");
+		Base.tweetList[2] = new Base.Tweet(2, "You can play by simply typing the first letter of the tweet. Letters are case-sensitive!");
 		Base.tweetList[3] = new Base.Tweet(3, "To deselect a tweet, hit backspace and you can choose another tweet to type out");
-		Base.tweetList[4] = new Base.Tweet(7, "Have fun, and remember to #MakeTypingGreatAgain");
+		Base.tweetList[4] = new Base.Tweet(7, "Have fun, and remember to #Make Typing Great Again");
 
 		game.add.existing(Base.tweetList[0]);
 		game.add.existing(Base.tweetList[1]);
@@ -212,7 +215,7 @@ Base.Main.prototype = {
 		
 		function logTime() {
 			timeElapsed++;
-			this.wpm = Number(Base.correctChars / 5 / (timeElapsed / 60)).toFixed(0);
+			this.wpm = Number((Base.correctChars / 3) / (timeElapsed / 60)).toFixed(0);
 			this.wordsPerMin.setText("  WPM: " + this.wpm);
 			this.acc = Base.correctChars == 0 ? 100 : Number(Base.correctChars / (Base.correctChars + Base.incorrectChars) * 100).toFixed(0);
 			this.accuracy.setText("  ACC: " + this.acc + "%");
