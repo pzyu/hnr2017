@@ -190,6 +190,7 @@ Base.Main.prototype = {
 		game.add.existing(Base.tweetList[3]);
 		game.add.existing(Base.tweetList[4]);
 
+		// Pause tweets till last is gone
 
 		this.trumpEmitter = game.add.emitter(0, 0, 100);
 		// Init emitter
@@ -232,7 +233,7 @@ Base.Main.prototype = {
 	},
 
 	update: function() {
-		if (Base.lives <= 2 && !this.isGameOver) {
+		if (Base.lives <= 0 && !this.isGameOver) {
 			this.isGameOver = true;
 
 			// Fantastic
