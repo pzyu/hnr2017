@@ -94,6 +94,7 @@ Base.Tweet.prototype.move = function() {
 		//console.log("Dead tweet" + Base.currentIndex);
 		//Base.music._sound.playbackRate.value *= 0.8;
 		Base.music._sound.playbackRate.value *= 1.2;
+		Base.music._sound.detune(0);
 		// Die and spawn
 		// If it's a tutorial, spawn further back
 		if (this.isTutorial) {
