@@ -75,8 +75,8 @@ Base.Main.prototype = {
 	    //this.textReflect = game.add.text(game.world.centerX, game.world.centerY, "#MTGA");
 	    this.textReflect = game.add.text(game.world.centerX, 50, "#MTGA");
 
-	    this.textMenu.setText("#Make Typing Great Again");
-	    this.textReflect.setText("#Make Typing Great Again");
+	    this.textMenu.setText("#MakeTypingGreatAgain");
+	    this.textReflect.setText("#MakeTypingGreatAgain");
 
 	    //  Centers the text
 	    this.textReflect.anchor.set(0.5);
@@ -184,11 +184,11 @@ Base.Main.prototype = {
 		// 	game.add.existing(newTweet);
 		// }
 
-		Base.tweetList[0] = new Base.Tweet(0, "Welcome to #Make Typing Great Again");
+		Base.tweetList[0] = new Base.Tweet(0, "Welcome to #MakeTypingGreatAgain");
 		Base.tweetList[1] = new Base.Tweet(1, "This is a modest collection of Donald Trump's tweets, and your job is to type them out");
 		Base.tweetList[2] = new Base.Tweet(2, "You can play by simply typing the first letter of the tweet. Letters are case-sensitive!");
 		Base.tweetList[3] = new Base.Tweet(3, "To deselect a tweet, hit backspace and you can choose another tweet to type out");
-		Base.tweetList[4] = new Base.Tweet(7, "Have fun, and remember to #Make Typing Great Again");
+		Base.tweetList[4] = new Base.Tweet(7, "Have fun, and remember to #MakeTypingGreatAgain");
 
 		game.add.existing(Base.tweetList[0]);
 		game.add.existing(Base.tweetList[1]);
