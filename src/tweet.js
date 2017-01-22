@@ -13,7 +13,7 @@ Base.Tweet = function(count, tutorialText) {
 
 	// Padding for spawn
 	this.paddingLeft = 100;
-	this.paddingRight = 450;
+	this.paddingRight = 350;
 
 	// Falling speed
 	this.speedX = (Math.random() * 5) + 1;
@@ -82,7 +82,6 @@ Base.Tweet.prototype.move = function() {
 
 	if (this.y > 580) {
 		Base.tweetList.push(Base.tweetList.shift());
-		Base.lives--;
 
 		Base.currentIndex = null;
 		this.isCurrent = false;
@@ -100,6 +99,7 @@ Base.Tweet.prototype.move = function() {
 			this.isTutorial = false;
 			this.spawn(4.5);
 		} else {
+			Base.lives--;
 			this.spawn(1);
 		}
 	}
