@@ -276,9 +276,10 @@ Base.Main.prototype = {
 		}
 
 		if (Base.lives <= 0 && !this.isGameOver) {
-			setTimeOut(function() {
-				this.isGameOver = true;
-			}, 1000);
+			var that = this;
+			setTimeout(function() {
+				that.isGameOver = true;
+			}, 5000);
 
 			// Fantastic
 			Base.trumpSFX[6].play();
@@ -311,7 +312,7 @@ Base.Main.prototype = {
 			return;
 		}
 
-		console.log(key.keyCode);
+		// console.log(key.keyCode);
 		if (key.keyCode == this.konami[this.konamiIndex]) {
 			// console.log("yes");
 			this.konamiIndex++;
