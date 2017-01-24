@@ -80,7 +80,7 @@ Base.Tweet.prototype.update = function() {
 Base.Tweet.prototype.move = function() {
 	this.y += this.speedY;
 
-	if (this.y > 580) {
+	if (this.y > game.scale.height * 0.8) {
 		Base.tweetList.push(Base.tweetList.shift());
 
 		Base.currentIndex = null;
