@@ -276,7 +276,9 @@ Base.Main.prototype = {
 		}
 
 		if (Base.lives <= 0 && !this.isGameOver) {
-			this.isGameOver = true;
+			setTimeOut(function() {
+				this.isGameOver = true;
+			}, 1000);
 
 			// Fantastic
 			Base.trumpSFX[6].play();

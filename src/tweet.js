@@ -92,7 +92,6 @@ Base.Tweet.prototype.move = function() {
 		
 		//console.log("Dead tweet" + Base.currentIndex);
 		//Base.music._sound.playbackRate.value *= 0.8;
-		Base.music._sound.playbackRate.value *= 1.2;
 		// Die and spawn
 		// If it's a tutorial, spawn further back
 		if (this.isTutorial) {
@@ -100,7 +99,8 @@ Base.Tweet.prototype.move = function() {
 			this.spawn(4.5);
 		} else {
 			Base.lives--;
-			this.spawn(1);
+			this.spawn((Math.random() * 2) + 1);
+			Base.music._sound.playbackRate.value *= 1.2;
 		}
 	}
 };
