@@ -99,7 +99,7 @@ Base.Tweet.prototype.move = function() {
 			this.spawn(4.5);
 		} else {
 			Base.lives--;
-			this.spawn((Math.random() * 2) + 1);
+			this.spawn(1);
 			Base.music._sound.playbackRate.value *= 1.2;
 		}
 	}
