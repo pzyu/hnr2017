@@ -1,2 +1,2 @@
 # MAKE TYPING GREAT AGAIN
-# cool beans
+# Play it here: http://mtga.azurewebsites.net/
